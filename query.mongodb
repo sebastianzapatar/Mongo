@@ -1,0 +1,114 @@
+use('mibasededatos')
+db.elmejor.find({});
+db.elmejor.find({}).sort({name:1})
+db.elmejor.find({},{name:true,_id:false,state:true});
+db.elmejor.insertMany([
+    {name:"Lorenzo Porras",state:"Medallo Pa",age:20},
+    {name:"Natalia N",state:"Medallo Pa",age:19},
+    {name:"Sebastian Zapata",state:"NY",age:34},
+    {name:"Juan Pablo Jesús",state:"Bello",age:20},
+    {name:"Daniel con sueño",state:"EIA casi",age:19},
+    {name:"Maria M.M",state:"Envigado",age:19},
+    {name:"Johan no te vas",state:"Santa Elena",age:45},
+    {name:"Super Denis",state:"Envigado corre",age:36}
+]);
+//like
+//Obtener todos los usuarios que comiencen con Ma
+db.elmejor.find({name:/^Ma/})
+//Obtener todo lo que finalice con S
+db.elmejor.find({name:/s$/})
+//Obtener todos los que tengan nombre "la"
+db.elmejor.find({name:/la/})
+db.elmejor.find({name:{
+    $nin:[/Maria/,/Denis/]
+}})
+
+//Buscar documentos por atributos
+db.elmejor.insert(
+    {name:"Juanjo el vendedor",
+    state:"Envigado corre",
+    age:36,
+    createdAt:new Date()})
+db.elmejor.find({
+    createdAt:{
+        $exists:false
+    }
+})
+db.elmejor.find({
+    age:{
+        $type:'string'
+    }
+})
+db.elmejor.find()
+//Actualizar
+
+var juanjo=db.elmejor.findOne({name:/Juanjo/});
+juanjo.age=20;
+db.elmejor.save(juanjo);
+
+//UpdateOne and UpdateManu
+db.elmejor.updateMany({
+    happines:{
+        $exists:false
+    }
+},{
+    $set:{//nuevos valores a nuestros documentos
+        happines:'low'
+    }
+})
+db.elmejor.find()
+db.elmejor.updateOne({
+    name:/Sebastian/
+},
+{$set:{
+    happines:'Very low'} 
+})
+db.elmejor.find({name:/Juanjo/})
+db.elmejor.updateOne(
+    {name:/Juanjo/},
+    {$unset:{happines:false}}
+)
+db.elmejor.updateOne(
+    {name:/Juanjo/},
+    {
+        $inc:{
+            age:1
+        }
+    }
+)
+//Eliminar un documento
+
+db.elmejor.remove(
+    {name:/Sebastian/}
+)
+db.elmejor.find({name:/Sebastian/})
+//Si no colocamos  ningún atributo nos elimina
+//Todos los documentos de la colección
+db.elmejor.remove({})
+db.elmejor.find()
+
+for(i=0;i<100;i++){
+    db.elmejor.insertOne({age:i,
+    name:'user'+i})
+}
+db.elmejor.find()//tienen una capacidad de 20
+db.elmejor.find().count()
+db.elmejor.find().skip(5).limit(10)
+db.elmejor.
+find({},{name:true,age:true}).
+sort({age:-1})
+
+db.elmejor.
+find({},{_id:false,name:true,age:true}).
+sort({age:-1}).skip(3).limit(1)
+
+db.elmejor.findOneAndUpdate(
+    { name : /user96/ },
+    { $inc: { age : 1 },
+    new:true }
+ )
+db.elmejor.updateMany({},
+    {$rename:{
+        name:"nombre"
+}})
+db.elmejor.find()

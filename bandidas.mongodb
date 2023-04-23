@@ -1,0 +1,326 @@
+use('otra')
+var brayayin={
+    name:'Brayayin',
+    job:'El puto mayor',
+    status:'Muy peligroso',
+    age:69
+}
+db.bandidas.insert(brayayin);
+db.bandidas.insertOne({
+    name:'Valeria',
+    job:'Niña alegre',
+    status:'Todas las valerias mienten',
+    age:18
+})
+db.bandidas.find({});//Select * from bandidas;
+use('otra')
+var users=[
+    {name:'Lorenzo Porras',
+    job:'El proxeneta no confiar',
+    status:'Perdido en las drogas y en ciber',
+    age:42,
+    patrimonio:-1}
+    ,{
+        name:'Simón Londoño',
+        job:'El esclavo del patrón Uribe',
+        status:'Vecino de Uribe pa',
+        age:12,
+        isGay:true
+    },
+    {name:'Luisa',
+    job:'mesara??',
+    status:'Garanta profunda',
+    age:35,
+    trabuco:true
+    },
+    {name:'Cecil',
+    job:'Vendedor de bonice',
+    status:'Viviendo la vida',
+    age:20,
+    size:8
+    },
+    {name:'Juliana',
+    job:'Generación contenido digital',
+    status:'Dios me libre',
+    age:84,
+    semueve:false
+    },
+    {name:'Mariana',
+    job:'Corredora de bolsa',
+    status:'Ser linda',
+    age:24,
+    Hasgranpechonalidad:true
+    },
+    {name:'Monica',
+    job:'Dejarme en la quiebra',
+    status:'Tristeza :P buen pastor',
+    age:33,
+    isTramadora:true
+    },
+    {name:'Briggite',
+    job:'Vendedora de mofles',
+    status:'falling in love by Daniel',
+    age:23,
+    isChimbita:false
+    }]
+db.bandidas.insertMany(users);
+use('otra')
+db.bandidas.find({age:
+    {
+        $gt:24//greater than equals
+    }});
+use('otra')
+db.bandidas.find({age:
+    {
+        $lt:24//greater than equals
+    }});
+            
+//Select * from bandidas where age>=24
+//Operadores
+/*
+1. mayor que $gt
+2. Mayor igual $gte
+3. Menor que $lt
+4. Menor igual $lte
+5. Diferente $ne
+6. Igual $eq 
+*/
+use('otra')
+db.bandidas.find({name:{
+    $eq:'Juliana'
+}})
+db.bandidas.find({name:'Juliana'})
+
+db.bandidas.find({}, {_id:false, name:true, status:true})
+
+db.bandidas.find(
+    {
+        name: /^C/
+    }
+);
+
+use('otra')
+db.bandidas.find({})
+db.bandidas.find(
+    {
+        $and: [
+            {name: /^Bri/},
+            {status: /\w+/}
+        ]
+    }
+);
+db.bandidas.find(
+    {
+        $or: [
+            {name: /^Bri/},
+            {status: /Vivi/}
+        ]
+    }
+);
+
+db.bandidas.find(
+    {
+
+    }
+).sort(
+    {
+        age:1
+    }
+);
+
+use('otra')
+db.bandidas.find({})
+db.bandidas.find({
+    size:{
+        $exists:false
+    }
+},
+{_id:false,
+    name:true,size:true})
+use('otra')
+db.bandidas.find({
+    size:{
+        $type:'int'
+    }
+},
+{_id:false,
+    name:true,size:true})
+
+use('otra')
+db.bandidas.updateOne({
+    name:/Cecil/
+},{
+    $set:{
+        size:7
+    }
+},{new:true})
+use('otra')
+db.bandidas.updateOne({
+    name:'Cecil'
+},
+{
+    $set:{
+        amores:['Natalia','Camila',
+    'Maria','Denis','La que se aparezca']
+    }
+})
+use('otra')
+//amores de Cecil Denis y Camila
+db.bandidas.find({
+    amores:{
+        $all:['Denis','Camila']//and
+        //Es decir que esten todas
+    }
+})
+use('otra')
+db.bandidas.find({
+    amores:{
+        $all:['Denis','Camila']//and
+        //Es decir que esten todas
+    }
+})
+use('otra')
+db.bandidas.find({})
+db.bandidas.find({
+    $or:[
+        {
+            amores:'Natalia'
+        },
+        {
+            amores:'Otra'
+        }
+    ]
+})
+
+use('otra')
+db.bandidas.updateOne({
+    name:'Lorenzo Porras'
+},
+{
+    $set:{
+        ingresos:[10,43,423,9,30,0,-38,-8]
+    }
+})
+db.bandidas.updateOne({
+    name:'Simón Londoño'
+},
+{
+    $set:{
+        ingresos:[0,-3,423,9,30,0,-38,-8]
+    }
+})
+/*
+Obtener las personas con ingresos negativos
+*/
+use('otra')
+db.bandidas.find({
+    ingresos:{
+        $lt:0
+    }
+})
+use('otra')
+db.bandidas.updateOne({name:'Simón Londoño'},
+    {
+        $push:{
+            ingresos:-857
+        }
+    })
+use('otra')
+db.bandidas.find({name:'Simón Londoño'})
+db.bandidas.find({
+    ingresos:10
+})
+// Ingresar más de un elemento
+use('otra')
+db.bandidas.updateOne({name:'Simón Londoño'},
+    {
+        $push:{
+            ingresos:{
+                $each:[400,-987,41,-968]
+            }
+            
+        }
+    })
+//ingresar en una posición x
+use('otra')
+db.bandidas.updateOne({name:/Lorenzo/},
+    {
+        $push:{
+            ingresos:{
+                $each:[4,8,97],
+                $position:0
+            }
+            
+        }
+    })
+use('otra')
+db.bandidas.find({name:/Lorenzo/})
+//Ordenar los elementos de una lista de un documento
+use('otra')
+db.bandidas.updateOne({name:/Lorenzo/},
+    {
+        $push:{
+            ingresos:{
+                $each:[4,8,97],
+                $position:0,
+                $sort:1
+            }
+            
+        }
+    })
+//Eliminar elementos
+use('otra')
+db.bandidas.updateOne({name:/Lorenzo/},
+    {
+        $pull:{
+            ingresos:97
+        }        
+        
+    })
+use('otra')
+db.bandidas.updateOne({name:/Lorenzo/},
+    {
+    $pull:{
+    ingresos:{
+        $in:[-8,4,8]
+    }        
+    }                
+})
+//Actualizar por indices
+use('otra')
+db.bandidas.updateOne({name:/Lorenzo/},
+    {
+        $set:{
+            'ingresos.0':100
+        }      
+    }                
+)
+//Si no se conoce el indice
+use('otra')
+db.bandidas.updateOne({name:/Lorenzo/,
+    ingresos:423},
+    {
+        $set:{
+            'ingresos.$':120
+        }      
+    }                
+)
+//Slice obtener un elemento por indice
+use('otra')
+db.bandidas.find({name:/Lorenzo/},
+    {
+        _id:false,
+        name:true,
+        ingresos:{
+            $slice:1//Obtener un elemento de su posición
+        }
+})
+use('otra')
+db.bandidas.find({name:/Lorenzo/},
+    {
+        _id:false,
+        name:true,
+        ingresos:{
+            $slice:[0,3]
+        }
+})
