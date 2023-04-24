@@ -1,0 +1,64 @@
+use('otra')
+db.bandidas.find({})
+db.bandidas.updateOne({name:/Luisa/},
+{
+    $set:{
+        status:'mama y silva...'
+    }
+})
+use('otra')
+db.bandidas.updateMany({
+    color:{
+        $exists:false
+    }
+},
+{
+    $set:{
+        color:'azul'
+    }
+})
+db.bandidas.insertOne({
+    name:'Daniela',
+    age:14,
+    job:'En fiestas de 15',
+    status:'experimentando',
+    school:'María Auxiliadora'
+})
+use('otra')
+db.bandidas.findOneAndUpdate(
+    {name:/Dan/},
+{
+    $set:{
+        name:'Daniela'
+    }
+})
+use('otra')
+db.bandidas.findOneAndUpdate({
+    name:/Dan/
+},{
+    $inc:{age:-1}
+})
+use('otra')
+db.bandidas.remove({name:/Mariana/})
+
+use('otra')
+db.bandidas.remove({})
+use('otra')
+for(i=0;i<150;i++){
+    db.bandidas.insertOne({
+        age:i,
+        name:'user'+i
+    })
+}
+use('otra')
+db.bandidas.find({}).sort({age:-1})
+.limit(50);
+use('otra')
+db.bandidas.updateMany({},{
+    $rename:{
+        name:'nombre'
+    }
+})
+use('otra')
+db.bandidas.remove({})
+
